@@ -60,18 +60,18 @@ function Table({ columns, data }) {
 
             <div className="cards">
                 {data.map((value, index) => {
-                    if(index<=10){
-                    return (
-                        <div className="card">
-                            <div className={'imageDiv'}><img alt={"name"} className={`image`} src={value.links.mission_patch_small} /></div>
-                            <div className="mentonName">{value.mission_name} #{value.flight_number}</div>
-                            <div><b>Mention ID: </b>{}</div>
-                            <div><b>Launch year: </b>{value.launch_year}</div>
-                            <div><b>Success launch: </b>{value.launch_success.toString()}</div>
-                            <div><b>success landing: </b>{value.rocket.first_stage.cores[0].land_success ? value.rocket.first_stage.cores[0].land_success.toString() : value.rocket.first_stage.cores[0].land_success}</div>
-                        </div>
-                    )
-                    }
+                    
+                        return (
+                            <div className="card">
+                                <div className={'imageDiv'}><img alt={"name"} className={`image`} src={value.links.mission_patch_small} /></div>
+                                <div className="mentonName">{value.mission_name} #{value.flight_number}</div>
+                                <div><b>Mention ID: </b>{value.mission_id ? value.mission_id[0] : 'Not Available'}</div>
+                                <div><b>Launch year: </b>{value.launch_year}</div>
+                                <div><b>Success launch: </b>{value.launch_success != null ? value.launch_success.toString() : 'Not Available'}</div>
+                                <div><b>success landing: </b>{value.rocket.first_stage.cores[0].land_success != null ? value.rocket.first_stage.cores[0].land_success.toString() : 'Not Available'}</div>
+                            </div>
+                        )
+                    
                 })}
             </div>
             {/* 
@@ -138,11 +138,11 @@ const PaginationTableComponent = (props) => {
                     },
                     {
                         Header: 'Launch Success',
-                        accessor: d => d.launch_success.toString(),
+                        accessor: d => d.launch_success,
                     },
                     {
                         Header: 'Land Success',
-                        accessor: d => d.rocket.first_stage.cores[0].land_success ? d.rocket.first_stage.cores[0].land_success.toString() : d.rocket.first_stage.cores[0].land_success,
+                        accessor: d => d.rocket.first_stage.cores[0].land_success ? d.rocket.first_stage.cores[0].land_success : d.rocket.first_stage.cores[0].land_success,
                     },
                 ],
             },
