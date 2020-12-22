@@ -9,9 +9,9 @@ function HomeComponent() {
     const allUrl = 'https://api.spacexdata.com/v3/launches?limit=100&launch_success=true&land_success=true&launch_year=2014'
     const [data, setData] = useState([]);
     const [isLoaded, setisLoaded] = useState(false);
-    const [launchCheckBox, setLaunchCheckBox] = useState(false)
-    const [launchLandCheckBox, setLaunchLandCheckBox] = useState(false)
-    const [allCheckBox, setAllCheckBox] = useState(false)
+    const [launchCheckBox, setLaunchCheckBox] = useState(null)
+    const [launchLandCheckBox, setLaunchLandCheckBox] = useState(null)
+    const [allCheckBox, setAllCheckBox] = useState(null)
     const [currentPage, setcurrentPage] = useState(0);
     const [limit, setLimit] = useState(100);
     const [url, setUrl] = useState(defaultUrl);
@@ -56,10 +56,10 @@ function HomeComponent() {
     }
     function assignCorrectUrl(one, sec, third) {
         let s = ''
-        if (one) {
-            s += 'launch_success=' + one
+        if (one == true || one == false) {
+            s += '&launch_success=' + one
         }
-        if (sec) {
+        if (sec == true || sec == false) {
             s += '&land_success=' + sec
         }
         if (third) {
@@ -71,26 +71,29 @@ function HomeComponent() {
     }
     function onChange(key, value) {
         if (key == 1) {
+            value = value == launchCheckBox ? null : value
             setLaunchCheckBox(value)
-            if (!launchLandCheckBox && !allCheckBox && value) {
-                setUrl(launchUrl)
-            }
-            if (!value) {
-                assignCorrectUrl(value, launchLandCheckBox, allCheckBox)
-            }
+            // if (!launchLandCheckBox && !allCheckBox && value) {
+            //     setUrl(launchUrl)
+            // }
+            // if (!value) {
+            assignCorrectUrl(value, launchLandCheckBox, allCheckBox)
+            // }
         }
         if (key == 2) {
+            value = value == launchLandCheckBox ? null : value
             setLaunchLandCheckBox(value)
-            if (!allCheckBox && value) {
-                setUrl(launchLandUrl)
-            }
-            if (!value) {
-                assignCorrectUrl(launchCheckBox, value, allCheckBox)
-            }
+            // if (!allCheckBox && value) {
+            //     setUrl(launchLandUrl)
+            // }
+            // if (!value) {
+            assignCorrectUrl(launchCheckBox, value, allCheckBox)
+            // }
         }
         if (key == 3) {
+            value = value == allCheckBox ? null : value
             setAllCheckBox(value)
-           assignCorrectUrl(launchCheckBox, launchLandCheckBox, value)
+            assignCorrectUrl(launchCheckBox, launchLandCheckBox, value)
         }
     }
     function onClick(e) {
@@ -114,20 +117,20 @@ function HomeComponent() {
             </div> */}
 
             <b> SpaceX Launch Programs</b>
-            <div className="float-container">
+            <div className="row1">
 
-                <div className="float-child1"><div><b>Filter: </b></div>
+                <div className="column1"><div><b>Filter: </b></div>
                     <div>
                         <div><u>Launch year</u></div>
                         {yearArr.map(obj => {
                             return (
                                 <div className="rowButton">
-                                    <div class="radio-toolbar">
-                                        <input type="radio" id={`yearRadio${obj.one}`} name="yearRadio" value={`${obj.one}`} onChange={() => onChange(3, obj.one)} />
-                                        <label for={`yearRadio${obj.one}`}>{obj.one}</label>
+                                    <div className="radio-toolbar">
+                                        <input type="button" id={`yearRadio${obj.one}`} name="yearRadio" value={`${obj.one}`} className={allCheckBox == obj.one ? 'buttonActive' : ''} onClick={() => onChange(3, obj.one)} />
+                                        <label className={allCheckBox == obj.one ? 'buttonActive' : ''} for={`yearRadio${obj.one}`}>{obj.one}</label>
 
-                                        <input type="radio" id={`yearRadio${obj.two}`} name="yearRadio" value={`${obj.two}`} onChange={() => onChange(3, obj.two)} />
-                                        <label for={`yearRadio${obj.two}`}>{obj.two}</label>
+                                        <input type="button" id={`yearRadio${obj.two}`} name="yearRadio" value={`${obj.two}`} onClick={() => onChange(3, obj.two)} />
+                                        <label className={allCheckBox == obj.two ? 'buttonActive right' : 'right'} for={`yearRadio${obj.two}`}>{obj.two}</label>
                                     </div>
                                 </div>
                             )
@@ -137,29 +140,29 @@ function HomeComponent() {
                     <div>
                         <div className="rowButton"><u>  Successful launch</u></div>
                         <div className="rowButton">
-                            <div class="radio-toolbar">
-                                <input type="radio" id="launchRadioTrue" name="launchRadio" value="true" onChange={() => onChange(1, true)} />
-                                <label for="launchRadioTrue">True</label>
+                            <div className="radio-toolbar">
+                                <input type="button" id="launchRadioTrue" name="launchRadio" value="true" onClick={() => onChange(1, true)} />
+                                <label className={launchCheckBox == true ? 'buttonActive' : ''} for="launchRadioTrue">True</label>
 
-                                <input type="radio" id="launchRadioFalse" name="launchRadio" value="false" onChange={() => onChange(1, false)} />
-                                <label for="launchRadioFalse">False</label>
+                                <input type="button" id="launchRadioFalse" name="launchRadio" value="false" onClick={() => onChange(1, false)} />
+                                <label className={launchCheckBox == false ? 'buttonActive right' : 'right'} for="launchRadioFalse">False</label>
                             </div>
                         </div>
                     </div>
                     <div >
                         <div ><u>  Successful Landing</u></div>
                         <div className="rowButton">
-                            <div class="radio-toolbar">
-                                <input type="radio" id="landingRadioTrue" name="landingRadio" value="true" onChange={() => onChange(2, true)} />
-                                <label for="landingRadioTrue">True</label>
+                            <div className="radio-toolbar">
+                                <input type="button" id="landingRadioTrue" name="landingRadio" value="true" onClick={() => onChange(2, true)} />
+                                <label className={launchLandCheckBox == true ? 'buttonActive' : ''} for="landingRadioTrue">True</label>
 
-                                <input type="radio" id="landingRadioFalse" name="landingRadio" value="false" onChange={() => onChange(2, false)} />
-                                <label for="landingRadioFalse">False</label>
+                                <input type="button" id="landingRadioFalse" name="landingRadio" value="false" onClick={() => onChange(2, false)} />
+                                <label className={launchLandCheckBox == false ? 'buttonActive right' : 'right'} for="landingRadioFalse">False</label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="float-child2" >
+                <div className="column2" >
                     {isLoaded ?
 
                         <PaginationTableComponent data={data} />
@@ -169,6 +172,7 @@ function HomeComponent() {
                         )}
                 </div>
             </div>
+            <div className='footer'>Developed By: Tarun Jain</div>
         </div>
     );
 
