@@ -32,8 +32,10 @@ function Table({ columns, data }) {
     )
 
     // Render the UI for your table
+
     return (
-        <div class="imageDiv">
+
+        <div className="imageDiv">
             {/* <table className="table" {...getTableProps()}>
                 <thead>
                     {headerGroups.map(headerGroup => (
@@ -57,10 +59,10 @@ function Table({ columns, data }) {
                     })}
                 </tbody>
             </table> */}
+          
+                <div className="cards">
+                    {data.map((value, index) => {
 
-            <div className="cards">
-                {data.map((value, index) => {
-                    
                         return (
                             <div className="card">
                                 <div className={'imageDiv'}><img alt={"name"} className={`image`} src={value.links.mission_patch_small} /></div>
@@ -71,9 +73,10 @@ function Table({ columns, data }) {
                                 <div><b>success landing: </b>{value.rocket.first_stage.cores[0].land_success != null ? value.rocket.first_stage.cores[0].land_success.toString() : 'Not Available'}</div>
                             </div>
                         )
-                    
-                })}
-            </div>
+
+                    })}
+                </div>
+           
             {/* 
         Pagination can be built however you'd like. 
         This is just a very basic UI implementation:

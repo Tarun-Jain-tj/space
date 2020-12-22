@@ -164,8 +164,7 @@ function HomeComponent() {
                 </div>
                 <div className="column2" >
                     {isLoaded ?
-
-                        <PaginationTableComponent data={data} />
+                        data.length ? <PaginationTableComponent data={data} /> : (<div className="noData">No Data</div>)
 
                         : (
                             <div></div>
